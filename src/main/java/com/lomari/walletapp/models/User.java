@@ -5,22 +5,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.*;
 
 @Entity
+@Table(name = "wallet_user")
 @Data
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@EqualsAndHashCode(callSuper=false)
 @Builder
 public class User extends BaseClass implements UserDetails {
 
@@ -91,5 +89,20 @@ public class User extends BaseClass implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        boolean idEquals = this.getId().equals(user.getId());
+        return getEmail().equals(user.getEmail())
+                && getUsername().equals(user.getUsername())
+                && idEquals;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getUsername(), getId());
     }
 }

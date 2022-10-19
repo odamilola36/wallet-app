@@ -13,9 +13,9 @@ public class AppDataConfig {
     private String SECRET_KEY;
     @Value("${jwt.tokenPrefix}")
     private String tokenPrefix;
-    @Value("${jwt.auth.expirationDate}")
+    @Value("${jwt.auth.expiration}")
     private Long authTokenExpirationDate;
-    @Value("${jwt.refresh.expirationDate}")
+    @Value("${jwt.refresh.expiration}")
     private Long refreshTokenExpirationDate;
 
     @Bean

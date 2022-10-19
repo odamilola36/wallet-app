@@ -29,6 +29,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
+//    private final UserMapper userMapper;
+
     private final UserService userService;
 
     private final JwtConfig jwtConfig;
@@ -37,6 +39,7 @@ public class AuthServiceImpl implements AuthService {
 
     public AuthServiceImpl(PasswordEncoder passwordEncoder, UserService userService, JwtConfig jwtConfig, AuthenticationManager authManager) {
         this.passwordEncoder = passwordEncoder;
+//        this.userMapper = userMapper;
         this.userService = userService;
         this.jwtConfig = jwtConfig;
         this.authManager = authManager;
@@ -56,9 +59,9 @@ public class AuthServiceImpl implements AuthService {
                 Currency.getCurrency(registerDto.getCurrencyCode())
                         .orElseThrow(() -> new InvalidCurrencyException("Currency not supported")));
 
-        User user = UserMapper.INSTANCE.registerDtoToUser(registerDto, role, wallet, passwordSalt);
+//        User user = userMapper.registerDtoToUser(registerDto, role, wallet, passwordSalt);
 
-
+        User user = new User();
         log.info("user object {}", user);
         userService.createUser(user);
 

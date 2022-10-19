@@ -37,7 +37,7 @@ public class SwaggerConfig {
                 "Simple Wallet system Api",
                 "v1",
                 "Terms of service",
-                new Contact("lomari", "https://github.com/odamilola36", ""),
+                new Contact("lomari", "https://github.com/odamilola36", "odamilola36@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 }
