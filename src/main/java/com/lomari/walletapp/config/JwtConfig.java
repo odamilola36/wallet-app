@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtConfig {
-    private String SECRET_KEY;
+    private final String  SECRET_KEY;
 
     private final JwtData jwtData;
 
@@ -31,7 +31,7 @@ public class JwtConfig {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -51,8 +51,6 @@ public class JwtConfig {
     }
 
 
-    // TODO: VALIDATE TOKEN CONTENTS ON JWT.IO
-    // TODO: CREATE ENVIRONMENT PROFILES (XML, AND OTHERS)
     private String createAccessToken(UserDetails user, Map<String, Object> claims) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -63,9 +61,9 @@ public class JwtConfig {
                 .compact();
     }
 
-    public boolean isValid(String token, UserDetails UserDetails) {
+    public boolean isValidToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return username.equals(UserDetails.getUsername()) && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
     private <T> T extractClaim(String token, Function<Claims, T> function ) {
         final Claims claims = extractAllClaims(token);

@@ -1,5 +1,6 @@
 package com.lomari.walletapp.enums;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 public enum Currency {
@@ -7,13 +8,11 @@ public enum Currency {
     EUR("EUR"),
     GBP("GBP"),
     USD("USD"),
-    JPY("JPY"),
-    AUD("AUD"),
     CAD("AUD");
 
     private final String currency;
 
-    Currency(String currency){
+    Currency(String currency) {
         this.currency = currency;
     }
 
@@ -21,7 +20,12 @@ public enum Currency {
         return currency;
     }
 
-    public static Optional<Currency> getCurrency(String currency){
-        return Optional.of(Currency.valueOf(currency.toUpperCase()));
+    public static Optional<Currency> getCurrency(String currency) {
+        boolean match = Arrays.stream(Currency.values()).anyMatch(c -> c.currency.equalsIgnoreCase(currency));
+        return match ? Optional.of(Currency.valueOf(currency.toUpperCase())) : Optional.empty();
+    }
+
+    public static boolean isSupportedCurrency(String currency) {
+        return getCurrency(currency).isPresent();
     }
 }

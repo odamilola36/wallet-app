@@ -5,15 +5,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.*;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(name = "wallet_user")
+@Table(name = "wallet_user", indexes = {
+        @Index(name = "idx_user_email", columnList = "email")
+})
 @Data
 @Setter
 @NoArgsConstructor
@@ -32,6 +32,8 @@ public class User extends BaseClass implements UserDetails {
     @NotNull(message = "Lastname can not be null")
     private String lastName;
 
+    private String passwordResetKey;
+
     private String password;
 
     @OneToOne
@@ -41,7 +43,7 @@ public class User extends BaseClass implements UserDetails {
     private String username;
 
     @Past(message = "Date of birth should be in the past")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @OneToOne
     private Wallet wallet;

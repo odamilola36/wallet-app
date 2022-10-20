@@ -1,5 +1,6 @@
 package com.lomari.walletapp.mappers;
 
+import com.lomari.walletapp.dto.AuthResponseDto;
 import com.lomari.walletapp.dto.RegisterDto;
 import com.lomari.walletapp.models.Role;
 import com.lomari.walletapp.models.User;
@@ -11,5 +12,7 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
     @Mapping(source ="role", target = "role")
     User registerDtoToUser(RegisterDto registerDto, Role role, Wallet wallet, String passwordSalt);
+
+    AuthResponseDto userToAuthResponseDto(User user, String authToken, String refreshToken);
 }
 

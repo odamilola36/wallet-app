@@ -30,4 +30,6 @@ public class BaseClass {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    private String updatedBy;
+
 }

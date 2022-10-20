@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 
-// TODO: implement auditing with events and optimistic locking with versioning.
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfiguration {
@@ -31,11 +31,12 @@ public class SecurityConfiguration {
     private final JwtRequestFilter jwtRequestFilter;
 
     private  final String[] AUTH_WHITELIST = {
-            "/auth",
+            "/api/auth/**",
+            "/h2-console/**",
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/v3/api-docs",
-            "/webjars/**"
+            "/webjars/**",
     };
 
     public SecurityConfiguration(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, JwtRequestFilter jwtRequestFilter) {
@@ -53,7 +54,6 @@ public class SecurityConfiguration {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder)
                 .and().build();
-
     }
 
 
@@ -61,7 +61,7 @@ public class SecurityConfiguration {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .cors().disable()
-                .headers().frameOptions().deny().and()
+                .headers().frameOptions().disable().and()
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/wallets/**").hasAnyAuthority("noob:write", "noob:read",  "elite:write", "elite:read")
