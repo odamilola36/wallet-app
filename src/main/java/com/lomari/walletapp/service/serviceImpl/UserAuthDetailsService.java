@@ -24,7 +24,8 @@ public class UserAuthDetailsService implements UserDetailsService {
             throws UsernameNotFoundException
     {
         Optional<User> userOptional = userRepository.findByEmail(username);
-        User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("Email address not found"));
+        User user = userOptional.orElseThrow(() ->
+                new UsernameNotFoundException("User with email %s address not found".formatted(username)));
         user.setAccountNonLocked(true);
         return user;
     }

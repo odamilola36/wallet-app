@@ -1,17 +1,22 @@
 package com.lomari.walletapp.config;
 
+import com.lomari.walletapp.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 public class JwtConfig {
     private final String  SECRET_KEY;
 
@@ -44,8 +49,8 @@ public class JwtConfig {
     private String createRefreshToken(UserDetails user) {
         return Jwts.builder()
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() * 1000 * 60 * 60 * jwtData.getRefreshTokenExpiry()))
-                .setSubject(user.getUsername())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * jwtData.getRefreshTokenExpiry()))
+                .setSubject(((User) user).getEmail())
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
@@ -55,8 +60,8 @@ public class JwtConfig {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() * 1000 * 60 * 60 * jwtData.getAuthTokenExpiry()))
-                .setSubject(user.getUsername())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * jwtData.getAuthTokenExpiry()))
+                .setSubject(((User) user).getEmail())
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
