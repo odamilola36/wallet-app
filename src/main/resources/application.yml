@@ -1,0 +1,28 @@
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  h2:
+    console:
+      enabled: true
+
+#   jwt properties
+jwt:
+  secret: QweRTY8u4I3op
+  tokenPrefix: Bearer
+  auth:
+    expiration: 30
+  refresh:
+    expiration: 90
+server:
+  port: 8090

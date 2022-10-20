@@ -23,5 +23,4 @@ public class Wallet extends BaseClass{
 
     private BigDecimal balance;
 
-//    private
 }

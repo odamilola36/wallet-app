@@ -1,6 +1,7 @@
 package com.lomari.walletapp.utils.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Setter
 @Getter
 public class ApiResponse <T>{
@@ -35,7 +37,7 @@ public class ApiResponse <T>{
     public ApiResponse(String message, HttpStatus status, Throwable cause){
         this.message = message;
         this.status = status;
-        this.debugMessage = cause.getLocalizedMessage();
+        this.debugMessage = cause.getMessage()  ;
     }
 
     public ApiResponse(String message, HttpStatus status, T data) {
@@ -78,8 +80,8 @@ public class ApiResponse <T>{
     }
 
     public void addValidationError(List<ObjectError> globalErrors) {
-        globalErrors.forEach(error -> {
-            FieldError error1 = (FieldError) error;
+        globalErrors.forEach(err -> {
+            FieldError error1 = (FieldError) err;
             addValidationError(error1.getObjectName(), error1.getField(), error1.getRejectedValue(), error1.getDefaultMessage());
         });
     }
